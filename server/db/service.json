@@ -1,0 +1,18 @@
+[
+    {
+      "servicesID": "PS01",
+      "serviceType": "Layanan Grooming"
+    },
+    {
+      "servicesID": "PS02",
+      "serviceType": "Layanan Kesehatan Hewan Peliharaan"
+    },
+    {
+      "servicesID": "PS03",
+      "serviceType": "Penjualan Perlengkapan Hewan Peliharaan"
+    },
+    {
+      "servicesID": "PS04",
+      "serviceType": "Layanan Penitipan Hewan"
+    }
+]

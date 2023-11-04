@@ -1,0 +1,24 @@
+[
+    {
+      "transactionID": "TD001",
+      "userID": 1,
+      "serviceID": "PS01",
+      "transactionDate": "2023-10-15",
+      "paymentID": "PM01"
+    },
+    {
+      "transactionID": "TD002",
+      "userID": 2,
+      "serviceID": "PS02",
+      "transactionDate": "2023-10-16",
+      "paymentID": "PM02"
+    },
+    {
+      "transactionID": "TD003",
+      "userID": 1,
+      "serviceID": "PS03",
+      "transactionDate": "2023-10-18",
+      "paymentID": "PM03"
+    }
+]
+  

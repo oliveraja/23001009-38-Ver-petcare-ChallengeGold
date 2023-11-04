@@ -1,0 +1,40 @@
+[
+  {
+    "userID": "U001",
+    "name": "John Doe",
+    "dateOfBirth": "2000-01-01",
+    "phoneNumber": "1234567890",
+    "role": "user"
+  },
+  {
+    "userID": "U002",
+    "name": "Jane Smith",
+    "dateOfBirth": "1995-02-15",
+    "phoneNumber": "9876543210",
+    "role": "admin"
+  },
+  {
+    "userID": "U003"
+  },
+  {
+    "userID": "U004"
+  },
+  {
+    "userID": "U005"
+  },
+  {
+    "userID": "U006"
+  },
+  {
+    "userID": "U007"
+  },
+  {
+    "userID": "U008"
+  },
+  {
+    "userID": "U009"
+  },
+  {
+    "userID": "U010"
+  }
+]

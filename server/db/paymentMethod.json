@@ -1,0 +1,19 @@
+[
+    {
+      "paymentID": "PM01",
+      "methodType": "QRIS"
+    },
+    {
+      "paymentID": "PM02",
+      "methodType": "Transfer Bank"
+    },
+    {
+      "paymentID": "PM03",
+      "methodType": "Debit Card"
+    },
+    {
+      "paymentID": "PM04",
+      "methodType": "Credit Card"
+    }
+]
+  

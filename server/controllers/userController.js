@@ -1,9 +1,9 @@
 const fs = require('fs');
-const data = require("../db/user.json")
 
 class UserController {
   constructor() {
-    this.data = require("../db/user.json");
+    // Inisialisasi data dengan data yang ada di berkas JSON
+    this.data = require('../db/user.json');
   }
 
   saveDataToFile() {
@@ -35,27 +35,24 @@ class UserController {
     this.saveDataToFile();
   }
 
-  createUser(req, res) {
-    const { name, dateOfBirth, phoneNumber, role } = req.body;
-    //const lastUserID = UserController.data.length > 0 ? UserController.data[UserController.data.length - 1].userID : 'U000';
-    const nextUserID = data.length > 0 ? data[data.length - 1].id + 1 : 1;
-  
+  // Menambahkan user baru
+  createUser(user) {
+    const idDynamic = this.data.length > 0 ? this.data[this.data.length - 1].userID + 1 : 1;
+
     const newUser = {
-      userID: nextUserID,
-      name,
-      dateOfBirth,
-      phoneNumber,
-      role,
+      userID: idDynamic,
+      name: user.name,
+      dateOfBirth: user.dateOfBirth,
+      phoneNumber: user.phoneNumber,
+      role: user.role,
     };
 
-    console.log(newUser, " ===> nambah nich");
-
-    data.push(newUser)
-    saveDataToFile();
-  
-    res.status(201).json(data);
+    this.data.push(newUser);
+    this.saveDataToFile();
+    return newUser;
   }
 
+  // Memperbarui user
   updateUser(req, res) {
     const userID = req.params.userID;
     const updatedUser = req.body;
@@ -71,6 +68,7 @@ class UserController {
     }
   }
 
+  // Menghapus user
   deleteUser(req, res) {
     const userID = req.params.userID;
     const userIndex = this.data.findIndex((user) => user.userID === userID);

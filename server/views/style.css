@@ -1,0 +1,71 @@
+.navbar-logo {
+    max-width: 50px;
+    padding-left: 10px;
+}
+
+
+/* Style untuk section Home */
+.home-section {
+    background-image: url('/server/views/images/background.png'); /* Ganti 'background.jpg' dengan URL gambar latar belakang yang sesuai */
+    background-size: cover;
+    background-position: center;
+    color: white;
+    text-align: center;
+    padding: 100px 0;
+    height: 100vh;
+}
+.text-black {
+    color: black;
+}
+
+.explore-button {
+    background-color: black;
+    color: white;
+    transition: background-color 0.3s ease;
+}
+
+.explore-button:hover {
+    background-color: white;
+    color: black;
+}
+
+/* Gaya untuk kolom About Us */
+.about-col {
+    padding: 20px;
+    border-radius: 10px;
+    transition: transform 0.3s ease;
+    margin: 0 5px;
+    background-color: #F6EBE2;
+}
+
+.about-col:hover {
+    transform: translateY(-5px);
+}
+
+/* Gaya untuk footer */
+footer {
+    text-align: left;
+}
+    footer h1,
+    footer h2,
+    footer p {
+    padding-left: 20px;
+}
+
+/* Gaya untuk ikon sosial media */
+.social-icons a {
+    color: black;
+    font-size: 24px;
+    text-decoration: none;
+    margin-right: 10px;
+    padding-left: 20px;
+}
+
+.copyright {
+    padding-left: 20px;
+}
+
+.social-icons a:hover {
+    color: #76461A; /* Warna biru saat dihover */
+}
+

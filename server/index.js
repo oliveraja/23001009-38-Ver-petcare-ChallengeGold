@@ -1,17 +1,16 @@
+// index.js
+
 const express = require('express');
 const app = express();
-const UserController = require('./controllers/userController');
 const userRoutes = require('./routes/userRoutes');
-const petRoutes = require('./routes/petRoutes');
+const path = require('path');
 
 const PORT = 3000;
 
 app.set('view engine', 'ejs');
-app.set('views', './views');
+app.set('views', path.join(__dirname, 'views'));
 app.use(express.urlencoded({ extended: true }));
-
 app.use('/', userRoutes);
-app.use('/', petRoutes);
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);

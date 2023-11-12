@@ -1,84 +1,65 @@
-const fs = require('fs');
+const userModel = require('../models/userModel');
 
 class UserController {
-  constructor() {
-    // Inisialisasi data dengan data yang ada di berkas JSON
-    this.data = require('../db/user.json');
+
+  //buat register
+  showRegisterPage(req, res) {
+    res.render('register');
   }
 
-  saveDataToFile() {
-    fs.writeFile('../db/user.json', JSON.stringify(this.data, null, 2), (err) => {
-      if (err) {
-        console.error('Error writing to user.json:', err);
-      } else {
-        console.log('Data has been written to user.json');
-      }
-    });
+    registerUser(req, res) { 
+    const { username, password } = req.body;
+    const newUser = userModel.addUser({ id: Date.now(), username, password });
+    res.send(`User registered: ${JSON.stringify(newUser)}`);
   }
 
-  getUsers(req, res) {
-    res.status(200).json(this.data);
+  //buat login kalo uda ada akun
+  showLoginPage(req, res) {
+    res.render('login');
   }
 
-  getUserById(req, res) {
-    const userID = req.params.userID;
-    const user = this.data.find((user) => user.userID === userID);
+    loginUser(req, res) { 
+    const { username, password } = req.body;
+    const user = userModel.getAllUsers().find(u => u.username === username && u.password === password);
+
     if (user) {
-      res.status(200).json(user);
+      res.send(`Login successful for user: ${JSON.stringify(user)}`);
     } else {
-      res.status(404).json({ message: 'User not found' });
+      res.send('Invalid username or password');
     }
   }
 
-  addUser(user) {
-    this.data.push(user);
-    this.saveDataToFile();
+  //ngeupdate profile
+  showUpdateProfilePage(req, res) {
+    res.render('updateProfile'); 
   }
 
-  // Menambahkan user baru
-  createUser(user) {
-    const idDynamic = this.data.length > 0 ? this.data[this.data.length - 1].userID + 1 : 1;
+    updateProfile(req, res) { 
+    const userId = parseInt(req.params.userId);
+    const updatedData = req.body;
+    const updatedUser = userModel.updateUser(userId, updatedData);
 
-    const newUser = {
-      userID: idDynamic,
-      name: user.name,
-      dateOfBirth: user.dateOfBirth,
-      phoneNumber: user.phoneNumber,
-      role: user.role,
-    };
-
-    this.data.push(newUser);
-    this.saveDataToFile();
-    return newUser;
-  }
-
-  // Memperbarui user
-  updateUser(req, res) {
-    const userID = req.params.userID;
-    const updatedUser = req.body;
-
-    const userIndex = this.data.findIndex((user) => user.userID === userID);
-
-    if (userIndex !== -1) {
-      this.data[userIndex] = { ...this.data[userIndex], ...updatedUser };
-      this.saveDataToFile();
-      res.status(200).json(this.data[userIndex]);
+    if (updatedUser) {
+      res.send(`Profile updated for user: ${JSON.stringify(updatedUser)}`);
     } else {
-      res.status(404).json({ message: 'User not found' });
+      res.send('User not found');
     }
   }
 
-  // Menghapus user
-  deleteUser(req, res) {
+  //ngedelete profile
+  showDeleteProfile(req, res) {
     const userID = req.params.userID;
-    const userIndex = this.data.findIndex((user) => user.userID === userID);
+    res.render("deleteProfile", { userID });
+  }
 
-    if (userIndex !== -1) {
-      const deletedUser = this.data.splice(userIndex, 1)[0];
-      this.saveDataToFile();
-      res.status(200).json(deletedUser);
+  deleteProfile(req, res) {
+    const userId = parseInt(req.params.userId);
+    const deletedUser = userModel.deleteUser(userId);
+
+    if (deletedUser) {
+      res.send(`Profile deleted for user: ${JSON.stringify(deletedUser)}`);
     } else {
-      res.status(404).json({ message: 'User not found' });
+      res.send('User not found');
     }
   }
 }

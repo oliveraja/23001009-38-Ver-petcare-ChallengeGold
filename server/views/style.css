@@ -4,9 +4,8 @@
 }
 
 
-/* Style untuk section Home */
 .home-section {
-    background-image: url('/server/views/images/background.png'); /* Ganti 'background.jpg' dengan URL gambar latar belakang yang sesuai */
+    background-image: url('/server/views/images/background.png');
     background-size: cover;
     background-position: center;
     color: white;
@@ -29,7 +28,6 @@
     color: black;
 }
 
-/* Gaya untuk kolom About Us */
 .about-col {
     padding: 20px;
     border-radius: 10px;
@@ -42,7 +40,6 @@
     transform: translateY(-5px);
 }
 
-/* Gaya untuk footer */
 footer {
     text-align: left;
 }
@@ -52,7 +49,6 @@ footer {
     padding-left: 20px;
 }
 
-/* Gaya untuk ikon sosial media */
 .social-icons a {
     color: black;
     font-size: 24px;
@@ -66,6 +62,6 @@ footer {
 }
 
 .social-icons a:hover {
-    color: #76461A; /* Warna biru saat dihover */
+    color: #76461A;
 }
 

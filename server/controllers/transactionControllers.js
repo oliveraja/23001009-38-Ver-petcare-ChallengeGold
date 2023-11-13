@@ -1,3 +1,5 @@
+//belom dibikin seed transactionnya
+
 const fs = require("fs");
 
 class TransactionController {

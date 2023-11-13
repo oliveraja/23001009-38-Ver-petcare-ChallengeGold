@@ -2,23 +2,31 @@
  * @param { import("knex").Knex } knex
  * @returns { Promise<void> } 
  */
-const currentDate = new Date();
-
 exports.seed = async function(knex) {
-  // Deletes ALL existing entries
-  await knex('pet').del();
 
-  // const user1 = await knex('user').where({ name: 'Oliver' }).first();
-  // const user2 = await knex('user').where({ name: 'Rahmi' }).first();
-  // const user3 = await knex('user').where({ name: 'Susan' }).first();
+    await knex('pet').del();
+  
+    const currentDate = new Date();
+    const users = await knex.select('userID').from('user');
+  
+    if (!users || users.length === 0) {
+      console.error('No users found. Please make sure to seed the user table first.');
+      return;
+    }
+  
+    const pets = [
+      { type: 'Dog', varian: 'Bulldog', DOB: '2020-01-15', petName: 'Buddy', petGender: 'Male', created_at: currentDate, updated_at: currentDate },
+      { type: 'Cat', varian: 'Persian', DOB: '2019-05-22', petName: 'Whiskers', petGender: 'Female', created_at: currentDate, updated_at: currentDate },
+    ];
+  
+    pets.forEach((pet, index) => {
+      const petID = `P${(index + 1).toString().padStart(3, '0')}`;
+      pet.petID = petID;
 
-  const date1 = new Date('2020-05-10');
-  const date2 = new Date('2018-08-22');
-  const date3 = new Date('2019-03-15');
-
-  await knex('pet').insert([
-    { type: 'Anjing', varian: 'Bulldog', DOB: date1, petName: 'Buddy', petGender: 'Male', userId: 1, created_at: currentDate, updated_at: currentDate },
-    { type: 'Anjing', varian: 'German Shepherd', DOB: date2, petName: 'Splash', petGender: 'Female', userId: 2, created_at: currentDate, updated_at: currentDate },
-    { type: 'Kucing', varian: 'Persian', DOB: date3, petName: 'Whiskers', petGender: 'Male', userId: 3, created_at: currentDate, updated_at: currentDate },
-  ]);
-};
+      const randomUser = users[Math.floor(Math.random() * users.length)];
+      pet.userID = randomUser.userID;
+    });
+  
+    await knex('pet').insert(pets);
+  };
+  

@@ -4,7 +4,7 @@
  */
 exports.up = function(knex) {
     return knex.schema.createTable('service', table =>{
-        table.increments('serviceID').primary()
+        table.string('serviceID').primary()
         table.string('serviceType')
         table.timestamp("created_at")
         table.timestamp("updated_at")

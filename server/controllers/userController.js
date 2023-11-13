@@ -1,4 +1,4 @@
-const userModel = require('../models/userModel');
+const knex = require('../db/connection');
 
 class UserController {
 

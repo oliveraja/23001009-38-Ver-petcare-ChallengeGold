@@ -4,13 +4,13 @@
  */
 exports.up = function(knex) {
   return knex.schema.createTable('pet', table =>{
-    table.increments('petID').primary()
+    table.string('petID').primary()
     table.string('type')
     table.string('varian')
     table.date('DOB')
     table.string('petName')
     table.string('petGender')
-    table.integer("userId").unsigned().references("userID").inTable("user")
+    table.string("userID").unsigned().references("userID").inTable("user")
     table.timestamp("created_at")
     table.timestamp("updated_at")
   })

@@ -1,15 +1,23 @@
 /**
  * @param { import("knex").Knex } knex
- * @returns { Promise<void> } 
+ * @returns { Promise<void> }
  */
-const currentDate = new Date()
 exports.seed = async function(knex) {
-  // Deletes ALL existing entries
-  await knex('paymentMethod').del()
-  await knex('paymentMethod').insert([
-    { methodType: 'QRIS', created_at: currentDate, updated_at: currentDate },
-    { methodType: 'Transfer Bank', created_at: currentDate, updated_at: currentDate },
-    { methodType: 'Debit', created_at: currentDate, updated_at: currentDate },
-    { methodType: 'CC', created_at: currentDate, updated_at: currentDate }
-  ]);
+
+  await knex('paymentMethod').del();
+
+  const currentDate = new Date();
+  const paymentMethods = [
+    { methodType: 'Cash', created_at: currentDate, updated_at: currentDate },
+    { methodType: 'Credit Card', created_at: currentDate, updated_at: currentDate },
+    { methodType: 'Debit Card', created_at: currentDate, updated_at: currentDate },
+    { methodType: 'Digital Wallet', created_at: currentDate, updated_at: currentDate },
+  ];
+
+  paymentMethods.forEach((method, index) => {
+    const paymentID = `PM${(index + 1).toString().padStart(2, '0')}`;
+    method.paymentID = paymentID;
+  });
+
+  await knex('paymentMethod').insert(paymentMethods);
 };

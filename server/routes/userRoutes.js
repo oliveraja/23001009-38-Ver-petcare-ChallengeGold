@@ -14,4 +14,3 @@ router.get("/profile/:userID/delete", userController.showDeleteProfile);
 router.delete('/profile/:userId/delete', userController.deleteProfile);
 
 module.exports = router;
-

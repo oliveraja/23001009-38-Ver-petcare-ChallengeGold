@@ -1,8 +1,14 @@
-const serviceData = require("../db/service.json");
+const knex = require('../db/connection');
 
 class ServiceController {
-  getServices(req, res) {
-    res.status(200).json(serviceData);
+  async getServices(req, res) {
+    try {
+      const services = await knex('service').select('*');
+      res.status(200).json(services);
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: 'Internal Server Error' });
+    }
   }
 }
 

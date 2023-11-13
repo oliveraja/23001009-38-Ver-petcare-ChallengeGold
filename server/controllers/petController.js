@@ -1,86 +1,99 @@
-const fs = require("fs");
+const knex = require('../db/connection');
 
 class PetController {
-  constructor() {
-    this.data = require("../db/pet.json");
+  async getPets(req, res) {
+    try {
+      const pets = await knex('pet').select('*');
+      res.status(200).json(pets);
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: 'Internal Server Error' });
+    }
   }
 
-  saveDataToFile() {
-    fs.writeFile("./db/pet.json", JSON.stringify(this.data, null, 2), (err) => {
-      if (err) {
-        console.error("Error writing to pet.json:", err);
+  async getPetById(req, res) {
+    try {
+      const typeIDParams = req.params.typeID;
+      const pet = await knex('pet').where({ typeID: typeIDParams }).first();
+
+      if (pet) {
+        res.status(200).json(pet);
       } else {
-        console.log("Data has been written to pet.json");
+        res.status(404).json({ message: 'Pet not found' });
       }
-    });
-  }
-
-  getPets(req, res) {
-    res.status(200).json(this.data);
-  }
-
-  getPetById(req, res) {
-    const typeIDParams = req.params.typeID;
-    const result = this.data.find((pet) => pet.typeID === typeIDParams);
-
-    if (result) {
-      res.status(200).json(result);
-    } else {
-      res.status(404).json({ message: "Pet not found" });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: 'Internal Server Error' });
     }
   }
 
-  createPet(req, res) {
-    const { typeID, type, varian, petDOB, petName, petGender, userID } = req.body;
+  async createPet(req, res) {
+    try {
+      const { typeID, type, varian, petDOB, petName, petGender, userID } = req.body;
 
-    const newPet = {
-      typeID,
-      type,
-      varian,
-      petDOB,
-      petName,
-      petGender,
-      userID,
-    };
+      await knex('pet').insert({
+        typeID,
+        type,
+        varian,
+        petDOB,
+        petName,
+        petGender,
+        userID,
+        created_at: new Date(),
+        updated_at: new Date(),
+      });
 
-    this.data.push(newPet);
-    this.saveDataToFile();
-
-    res.status(201).json(this.data);
-  }
-
-  updatePet(req, res) {
-    const typeIDParams = req.params.typeID;
-    const { type, varian, petDOB, petName, petGender, userID } = req.body;
-
-    const petToUpdate = this.data.find((pet) => pet.typeID === typeIDParams);
-
-    if (petToUpdate) {
-      petToUpdate.type = type;
-      petToUpdate.varian = varian;
-      petToUpdate.petDOB = petDOB;
-      petToUpdate.petName = petName;
-      petToUpdate.petGender = petGender;
-      petToUpdate.userID = userID;
-
-      this.saveDataToFile();
-
-      res.status(200).json(petToUpdate);
-    } else {
-      res.status(404).json({ message: "Pet not found" });
+      const pets = await knex('pet').select('*');
+      res.status(201).json(pets);
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: 'Internal Server Error' });
     }
   }
 
-  deletePet(req, res) {
-    const typeIDParams = req.params.typeID;
-    const petIndex = this.data.findIndex((pet) => pet.typeID === typeIDParams);
+  async updatePet(req, res) {
+    try {
+      const typeIDParams = req.params.typeID;
+      const { type, varian, petDOB, petName, petGender, userID } = req.body;
 
-    if (petIndex !== -1) {
-      this.data.splice(petIndex, 1);
-      this.saveDataToFile();
-      res.status(204).send();
-    } else {
-      res.status(404).json({ message: "Pet not found" });
+      const updatedPet = await knex('pet')
+        .where({ typeID: typeIDParams })
+        .update({
+          type,
+          varian,
+          petDOB,
+          petName,
+          petGender,
+          userID,
+          updated_at: new Date(),
+        })
+        .returning('*');
+
+      if (updatedPet.length > 0) {
+        res.status(200).json(updatedPet[0]);
+      } else {
+        res.status(404).json({ message: 'Pet not found' });
+      }
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: 'Internal Server Error' });
+    }
+  }
+
+  async deletePet(req, res) {
+    try {
+      const typeIDParams = req.params.typeID;
+
+      const deletedRows = await knex('pet').where({ typeID: typeIDParams }).del();
+
+      if (deletedRows > 0) {
+        res.status(204).send();
+      } else {
+        res.status(404).json({ message: 'Pet not found' });
+      }
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: 'Internal Server Error' });
     }
   }
 }
